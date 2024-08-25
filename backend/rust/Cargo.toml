@@ -1,0 +1,22 @@
+[package]
+name = "rust"
+version = "0.1.0"
+edition = "2021"
+authors = ["hoax"]
+
+[package.metadata]
+include = ["./settings.toml"]
+
+[lib]
+name = "noteapp_lib"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ntoeapp"
+path = "src/bin/bin.rs"
+
+[dependencies]
+tokio = { version = "1.39.3", features = ["full"] }
+thiserror = "1.0"
+toml = "0.8.19"
+serde = { version = "1.0.208", features = ["derive"] }
