@@ -2,39 +2,31 @@
 	import StarterKit from '@tiptap/starter-kit';
 	import { Editor } from '@tiptap/core';
 	import { onDestroy, onMount } from 'svelte';
-	import Placeholder from '@tiptap/extension-placeholder';
-	import Document from '@tiptap/extension-document'
-	import { StarterKitOptions } from './extensions';
-	import CodeBlockLowLight from "@tiptap/extension-code-block-lowlight";
-	import lowlight from "./registerCodeExt";
-	import TaskList from "@tiptap/extension-task-list"
-	import TaskItem from '@tiptap/extension-task-item';
-	import codeblockNodeView from './codeblockNodeView';
+	import BubbleMenuComponent from './BubbleMenu.svelte';
+	import extensions, { StarterKitOptions } from './extensions/index';
+	import { BubbleMenu } from '@tiptap/extension-bubble-menu';
+	import CustomMenu from './SlashCommandMenu.svelte';
+	import { SlashCommands } from './extensions/slashCommands';
 
 	let editor: Editor;
 	let editorContainer: HTMLDivElement;
+	let bubbleMenuEl: HTMLDivElement;
+	let slashCommandEl: HTMLDivElement;
 
 	onMount(() => {
 		editor = new Editor({
 			element: editorContainer,
 			extensions: [
+				...extensions,
 				/**
 				 * For further enhancements - 'history' ext can be used as a premium feature to
 				 * track different versions.
-				*/
+				 */
 				StarterKit.configure(StarterKitOptions),
-				Placeholder.configure({
-					placeholder: 'Write something ..'
+				BubbleMenu.configure({
+					element: bubbleMenuEl
 				}),
-				CodeBlockLowLight.extend({
-					addNodeView() {
-						return codeblockNodeView;
-					},
-				}).configure({ lowlight }),
-				TaskList,
-				TaskItem.configure({
-					nested: true,
-				}),
+				SlashCommands.configure({ element: slashCommandEl })
 			],
 			onTransaction() {
 				editor = editor;
@@ -43,10 +35,10 @@
 			injectCSS: false,
 			editorProps: {
 				attributes: {
-					class: "focus:outline-none",
-					spellcheck: "false",
+					class: 'focus:outline-none',
+					spellcheck: 'true'
 				}
-			},
+			}
 		});
 	});
 
@@ -56,3 +48,15 @@
 </script>
 
 <div id="editor" bind:this={editorContainer}></div>
+<div bind:this={bubbleMenuEl}>
+{#if editor}
+	<BubbleMenuComponent {editor} />
+{/if}
+</div>
+<div bind:this={slashCommandEl}>
+{#if editor}
+	<CustomMenu {editor} on:click={() => {
+		slashCommandEl?.remove();
+	}} />
+{/if}
+</div>

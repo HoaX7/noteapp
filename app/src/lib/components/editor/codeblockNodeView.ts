@@ -1,5 +1,5 @@
 import type { NodeViewRendererProps } from '@tiptap/core';
-import { registeredLangs } from './registerCodeExt';
+import { registeredLangs } from './extensions/registerCodeExt';
 
 export default ({
 	getPos,
@@ -47,9 +47,7 @@ export default ({
 	dom.append(select, pre);
 
 	return {
-		// Pass the node view container …
 		dom,
-		// … and the content container:
 		contentDOM: content
 	};
 };

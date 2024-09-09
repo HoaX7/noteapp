@@ -2,7 +2,7 @@
 	import clsx from "clsx";
 
     type TypographyProps = {
-        variant: "div" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+        variant: "div" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "span";
         weight: "normal" | "medium" | "semi-bold" | "bold";
         fontSize: "sm" | "base" | "lg" | "xl" | "2xl";
         class?: string;
