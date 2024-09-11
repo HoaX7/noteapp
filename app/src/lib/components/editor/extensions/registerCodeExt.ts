@@ -1,4 +1,4 @@
-import { all, createLowlight } from 'lowlight';
+import { all, createLowlight } from "lowlight";
 import rust from "highlight.js/lib/languages/rust";
 import css from "highlight.js/lib/languages/css";
 import scss from "highlight.js/lib/languages/scss";
@@ -20,25 +20,25 @@ import csharp from "highlight.js/lib/languages/csharp";
 import bash from "highlight.js/lib/languages/bash";
 
 export const registeredLangs = [
-	'css',
-	'scss',
-    "xml",
-	'javascript',
-	'typescript',
-    "c",
-    "cpp",
-    "csharp",
-	'sql',
-	'yaml',
-	'bash',
-	'go',
-	'elixir',
-	'rust',
-	'dockerfile',
-    "dart",
-    "python",
-    "json",
-    "java",
+	"css",
+	"scss",
+	"xml",
+	"javascript",
+	"typescript",
+	"c",
+	"cpp",
+	"csharp",
+	"sql",
+	"yaml",
+	"bash",
+	"go",
+	"elixir",
+	"rust",
+	"dockerfile",
+	"dart",
+	"python",
+	"json",
+	"java",
 ];
 
 const lowlight = createLowlight(all);

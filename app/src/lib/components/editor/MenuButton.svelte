@@ -1,14 +1,14 @@
 <script lang="ts">
-	import clsx from "clsx";
+  import clsx from "clsx";
 
-    export let isActive = false;
-    export let classname = "";
+  export let isActive = false;
+  export let classname = "";
 </script>
 
 <button {...$$restProps} on:click class={clsx(classname, "hover:bg-gray-200 px-2 py-1 rounded-md",
-    "flex items-center justify-center", "menu-button", isActive ? "bg-gray-200" : ""
+	"flex items-center justify-center", "menu-button", isActive ? "bg-gray-200" : ""
 )}>
-	<slot />
+  <slot />
 </button>
 
 <style>

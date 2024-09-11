@@ -33,16 +33,6 @@ body {
 	margin: 0;
 	height: 100%;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	line-height: 1.1;
-	margin-top: 2.5rem;
-	text-wrap: pretty;
-}
 ul li {
 	list-style: disc;
 }
@@ -56,7 +46,7 @@ ol li {
 	@apply pointer-events-none;
 	@apply h-0;
 }
-.tiptap {
+.tiptap > :first-child {
 	margin-top: 0;
 }
 .tiptap ul[data-type='taskList'] {
@@ -86,10 +76,6 @@ ol li {
 
 .tiptap ul[data-type='taskList'] ul[data-type='taskList'] {
 	margin: 0;
-}
-
-.tiptap:first-child {
-	margin-top: 0;
 }
 
 .tiptap pre {

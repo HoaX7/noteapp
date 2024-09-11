@@ -1,5 +1,6 @@
 <script>
-	import Editor from "$lib/components/editor/Editor.svelte";
-
+  import Editor from "$lib/components/editor/Editor.svelte";
 </script>
-<Editor />
+<div class="lg:max-w-[80%] lg:mx-auto">
+  <Editor />
+</div>

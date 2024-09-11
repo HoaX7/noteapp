@@ -1,23 +1,23 @@
 <script lang="ts">
-	import clsx from "clsx";
+  import clsx from "clsx";
 
-    type TypographyProps = {
-        variant: "div" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "span";
-        weight: "normal" | "medium" | "semi-bold" | "bold";
-        fontSize: "sm" | "base" | "lg" | "xl" | "2xl";
-        class?: string;
-    }
+  type TypographyProps = {
+    variant: "div" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "span";
+    weight: "normal" | "medium" | "semi-bold" | "bold";
+    fontSize: "sm" | "base" | "lg" | "xl" | "2xl";
+    class?: string;
+  }
 
-    export let variant: TypographyProps["variant"];
-    export let weight: TypographyProps["weight"];
-    export let fontSize: TypographyProps["fontSize"];
-    export let classname: TypographyProps["class"] = "";
+  export let variant: TypographyProps["variant"];
+  export let weight: TypographyProps["weight"];
+  export let fontSize: TypographyProps["fontSize"];
+  export let classname: TypographyProps["class"] = "";
 
 </script>
 
 
 <svelte:element this={variant} class={clsx(classname, `text-${fontSize} font-${weight}`)}>
-    <slot />
+  <slot />
 </svelte:element>
 
 <style>
