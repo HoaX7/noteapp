@@ -19,6 +19,9 @@
           "minimize": true,
           "startDragging": true,
           "unmaximize": true
+        },
+        "os": {
+          "all": true
         }
       },
       "bundle": {
