@@ -18,10 +18,21 @@
         "maximize": true,
         "minimize": true,
         "startDragging": true,
-        "unmaximize": true
+        "unmaximize": true,
+        "close": true
+      },
+      "globalShortcut": {
+        "all": true
       },
       "os": {
         "all": true
+      },
+      "path": {
+        "all": true
+      },
+      "dialog": {
+        "all": false,
+        "open": true
       }
     },
     "bundle": {

@@ -93,7 +93,7 @@ export default [
       "svelte/indent": [
         "error",
         {
-          indent: 2,
+          indent: "tab",
           ignoredNodes: [],
           switchCase: 1,
           alignAttributesVertically: false,

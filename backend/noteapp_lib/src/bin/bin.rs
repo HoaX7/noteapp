@@ -9,6 +9,10 @@ async fn main() {
 }
 
 pub async fn get_contents() {
-    let config = app_settings::load_config().unwrap();
-    
+    // let files = storage::StorageType::Disk.get_dir_files("../docs").await.unwrap();
+    // println!("yoooo {:?}", files);
+    let contents = storage::StorageType::Disk.write_strategy("shortnotes.txt", "Data", false).await.unwrap();
+    println!("{:?}", contents);
+    // let contents = storage::StorageType::Disk.read_strategy("shortnotes.txt").await.unwrap();
+    // println!("{:?}", contents);
 }

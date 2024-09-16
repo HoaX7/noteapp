@@ -1,46 +1,15 @@
 <script lang="ts">
   import { type Editor } from "@tiptap/core";
-  import type { Level } from "@tiptap/extension-heading";
   import MenuButton from "./MenuButton.svelte";
   import Typography from "../common/Typography.svelte";
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
+  import { getList } from "./slashCommandList";
 
   export let editor: Editor;
   export let ref: null | HTMLDivElement = null;
-  const headerLevels: Level[] = [1, 2, 3, 4, 5, 6];
-  const menuItems = [
-    ...headerLevels.map((level) => ({
-      name: `Heading ${level}`,
-      click: () => editor.chain().focus().toggleHeading({ level }).run(),
-    })),
-    {
-      name: "Paragraph",
-      click: () =>
-        editor.chain().focus().toggleNode("paragraph", "paragraph").run(),
-    },
-    {
-      name: "Bullet List",
-      click: () => editor.chain().focus().toggleBulletList().run(),
-    },
-    {
-      name: "Check List",
-      click: () => editor.chain().focus().toggleTaskList().run(),
-    },
-    {
-      name: "Ordered List",
-      click: () => editor.chain().focus().toggleOrderedList().run(),
-    },
-    {
-      name: "Code Block",
-      click: () => editor.chain().focus().toggleCodeBlock().run(),
-    },
-    {
-      name: "Block Quotes",
-      click: () => editor.chain().focus().toggleBlockquote().run(),
-    },
-  ];
+  
 
-  export let items = menuItems;
+  export let items = getList(editor);
   let activeIdx = 0;
   /**
    * This API is used to filter data
@@ -84,7 +53,7 @@
       .run();
   };
   const triggerCommand = (item: { name: string; click: () => void }) => {
-    item.click();
+    item?.click?.();
     /**
      * When an item is selected, hide the element.
      */

@@ -1,8 +1,17 @@
-use std::io::Error;
+use std::{io::Error, path::PathBuf};
 
-pub async fn read_notion(_path: &str) -> Result<Option<String>, Error> {
-    Ok(None)
+pub async fn read_notion() -> Result<Option<String>, Error> {
+    todo!()
 }
-pub async fn write_notion(_path: &str, data: &str) -> Result<(), Error> {
-    Ok(())
+pub async fn write_notion() -> Result<(), Error> {
+    todo!()
+}
+pub async fn get_dir_files() -> Result<Vec<PathBuf>, Error> {
+    todo!()
+}
+pub async fn remove_file() -> Result<(), Error> {
+    todo!()
+}
+pub async fn rename_file() -> Result<(), Error> {
+    todo!()
 }

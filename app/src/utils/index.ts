@@ -1,3 +1,5 @@
+import { path } from "@tauri-apps/api";
+
 export const debounce = (cb: any, timeout: number) => {
 	let timer: any;
 	return (...args: any[]) => {
@@ -9,3 +11,12 @@ export const debounce = (cb: any, timeout: number) => {
 };
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const parseFilename = async (fn: string) => {
+	const ext = await path.extname(fn);
+	const filename = fn.split(`.${ext}`)[0];
+	return {
+		filename,
+		ext
+	};
+};

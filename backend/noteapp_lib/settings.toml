@@ -1,5 +1,1 @@
-#########################
-## Settings
-##
-
-save_files_to_dir = "./"
+save_files_to_dir = "D:\\noteapp\\backend\\docs"

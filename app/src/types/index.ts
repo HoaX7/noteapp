@@ -1,4 +1,11 @@
 export type ContextProps = {
-    id: string;
     page: string;
+    ext: string;
+    isShortNote?: boolean;
+    theme?: "dark" | "light";
+}
+
+export type SettingProps = {
+    save_files_to_dir: string;
+    notion?: boolean;
 }

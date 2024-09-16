@@ -15,7 +15,7 @@ const ContextStore = {
 		return store; 
 	},
 	update(data: ContextProps) {
-		this.store.set(data);
+		this.store.set(data || {});
 	},
 	clear() {
 		this.store.set(INITIAL_STATE);

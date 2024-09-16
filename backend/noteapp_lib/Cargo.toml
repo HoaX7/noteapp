@@ -1,8 +1,8 @@
 [package]
-name = "rust"
+name = "noteapp_lib"
 version = "0.1.0"
 edition = "2021"
-authors = ["hoax"]
+authors = ["HoaX7"]
 
 [package.metadata]
 include = ["./settings.toml"]
