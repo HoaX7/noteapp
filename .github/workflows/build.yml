@@ -21,6 +21,9 @@ jobs:
           - os: windows-latest
             rust_target: x86_64-pc-windows-msvc
     runs-on: ${{ matrix.platform }}
+    defaults:
+      run:
+        working-directory: ./app
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
