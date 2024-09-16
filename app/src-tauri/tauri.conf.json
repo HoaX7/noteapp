@@ -74,7 +74,7 @@
     "updater": {
       "active": true,
       "dialog": true,
-      "endpoints": ["http://localhost:5000/tauri/{{target}}/{{arch}}/{{current_version}}"],
+      "endpoints": ["https://scribe.izzi-xenex.xyz/tauri/{{target}}/{{arch}}/{{current_version}}"],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEJDQzY3MjU3MDQ3MDQ1OEYKUldTUFJYQUVWM0xHdktsNDY4RHREYzZnV3BDV3pxS1NVRHNQZGZhSHZqOTlvbXZ1YWdtdkU3b2kK",
       "windows": {
         "installMode": "passive"
