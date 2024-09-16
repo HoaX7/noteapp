@@ -50,8 +50,8 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
-      "longDescription": "",
+      "identifier": "xyz.izzi-xenex.scribe",
+      "longDescription": "Perfect for quick notes or detailed plans, stay on top of your day and never lose track of your ideas again! Easy integration with Notion.",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -60,7 +60,7 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "",
+      "shortDescription": "Perfect for quick notes or detailed plans, stay on top of your day and never lose track of your ideas again!",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,
@@ -72,7 +72,13 @@
       "csp": null
     },
     "updater": {
-      "active": false
+      "active": true,
+      "dialog": true,
+      "endpoints": ["http://localhost:5000/tauri/{{target}}/{{arch}}/{{current_version}}"],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEJDQzY3MjU3MDQ3MDQ1OEYKUldTUFJYQUVWM0xHdktsNDY4RHREYzZnV3BDV3pxS1NVRHNQZGZhSHZqOTlvbXZ1YWdtdkU3b2kK",
+      "windows": {
+        "installMode": "passive"
+      }
     },
     "systemTray": {
       "iconPath": "icons/32x32.png",
