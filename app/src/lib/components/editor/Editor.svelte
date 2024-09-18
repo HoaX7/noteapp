@@ -8,6 +8,7 @@
   import { SlashCommands } from "./extensions/slashCommands";
   import { debounce } from "../../../utils";
   import WindowEvent from "$lib/hooks/WindowEvent.svelte";
+  import Typography from "@tiptap/extension-typography";
 
   let editor: Editor;
   let editorContainer: HTMLDivElement;
@@ -34,6 +35,11 @@
       if (clearContent) editor.commands.clearContent(false);
     }
   }
+
+  export const appendContent = (text: string) => {
+    const { size } = editor.view.state.doc.content;
+    editor.commands.insertContentAt(size, text);
+  }
   onMount(() => {
     editor = new Editor({
       element: editorContainer,
@@ -47,6 +53,7 @@
         StarterKit.configure(StarterKitOptions),
         BubbleMenu.configure({ element: bubbleMenuEl }),
         SlashCommands,
+        Typography,
       ],
       onTransaction() {
         editor = editor;

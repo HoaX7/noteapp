@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use noteapp_lib::{app_settings, storage::StorageType};
 
 use crate::{controller::*, shortcuts};
@@ -55,4 +57,9 @@ pub async fn save_settings(new_settings: app_settings::AppSettings) -> Result<()
         app_settings::save_settings(&current_settings)?;
     }
     Ok(())
+}
+
+#[tauri::command]
+pub fn search_contents(query: &str) -> Result<Vec<PathBuf>, ()> {
+    StorageType::Disk.search_strategy(query)
 }

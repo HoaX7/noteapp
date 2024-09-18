@@ -2,7 +2,7 @@ mod disk;
 mod notion;
 use std::{io::Error, path::{Path, PathBuf}};
 
-use crate::app_settings::make_path;
+use crate::{app_settings::{get_settings_dir, make_path}, fs};
 
 pub enum StorageType {
     Disk,
@@ -44,6 +44,14 @@ impl StorageType {
         match self {
             StorageType::Disk => disk::rename_file(&from_path.as_path(), &to_path.as_path()).await,
             StorageType::Notion => notion::rename_file().await
+        }
+    }
+    pub fn search_strategy(&self, query: &str) -> Result<Vec<PathBuf>, ()> {
+        let dir = get_settings_dir();
+        let dir_path = Path::new(&dir);
+        match self {
+            StorageType::Disk => fs::search_content(dir_path, query),
+            StorageType::Notion => todo!()
         }
     }
 }

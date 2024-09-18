@@ -5,6 +5,7 @@
   import Typography from "../common/Typography.svelte";
   import { deleteFile, renameFile } from "../../../api";
   import Error from "../common/ErrorComponent.svelte";
+  import { IO } from "../../../utils/errors";
 
   export let item: ContextProps;
   export let ctx: ContextProps;
@@ -16,19 +17,26 @@
   let fileExists = false;
   let error = "";
 
+  const updatePages = (obj: ContextProps) => {
+    const idx = pages.findIndex((p) => p.page === obj.page && p.ext === obj.ext);
+    if (idx >= 0) {
+        pages.splice(idx, 1);
+        setPages(pages);
+    }
+    if (ctx.page === obj.page && ctx.ext === obj.ext) {
+        updateStore(pages[0] || {});
+    }
+  }
   const deletePage = async (obj: ContextProps) => {
     const filename = `${obj.page}.${obj.ext}`;
     try {
         await deleteFile(filename);
-        const idx = pages.findIndex((p) => p.page === obj.page && p.ext === obj.ext);
-        if (idx >= 0) {
-            pages.splice(idx, 1);
-            setPages(pages);
-        }
-        if (ctx.page === obj.page && ctx.ext === obj.ext) {
-            updateStore(pages[0] || {});
-        }
+        updatePages(obj);
     } catch (err: any) {
+        if (err.code === IO.IO_NF) {
+            updatePages(obj);
+            return;
+        }
         console.error("unable to delete", err);
         error = err?.message || "unable to delete page";
     }
@@ -89,7 +97,11 @@
     <button on:click|stopPropagation={() => setEditable(true)}>
         <Icon src="assets/images/edit.svg" alt="rename" width="14" />
     </button>
-    <button on:click|stopPropagation={() => deletePage(item)}>
+    <button on:click|stopPropagation={async () => {
+        const ask = await window.confirm("Are you sure you want to delete this file? This action cannot be reverted.");
+        if (!ask) return;
+        deletePage(item);
+    }}>
       <Icon src="assets/images/bin.svg" alt="delete" width="14" />
     </button>
     {/if}

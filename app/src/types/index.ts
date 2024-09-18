@@ -3,6 +3,7 @@ export type ContextProps = {
     ext: string;
     isShortNote?: boolean;
     theme?: "dark" | "light";
+    forceRefresh?: boolean;
 }
 
 export type SettingProps = {
