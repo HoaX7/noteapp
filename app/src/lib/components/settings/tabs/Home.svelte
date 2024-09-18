@@ -5,6 +5,8 @@
   import { saveSettings } from "../../../../api";
   import Spinner from "$lib/components/common/Spinner.svelte";
   import Error from "$lib/components/common/ErrorComponent.svelte";
+  import { emit } from "@tauri-apps/api/event";
+  import { TAURI_EVENTS } from "../../../../utils/constants";
 
   export let settings: SettingProps;
   let saving = false;
@@ -20,6 +22,7 @@
       if (typeof dir === "string" && dir !== settings.save_files_to_dir) {
         await saveSettings({ save_files_to_dir: dir });
         settings.save_files_to_dir = dir;
+        emit(TAURI_EVENTS.RELOAD_FILES);
       }
     } catch (err: any) {
       console.error("Unable to save settings", err);

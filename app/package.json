@@ -55,6 +55,7 @@
 		"@tiptap/extension-task-item": "^2.6.6",
 		"@tiptap/extension-task-list": "^2.6.6",
 		"@tiptap/extension-text-style": "^2.6.6",
+		"@tiptap/extension-typography": "^2.6.6",
 		"@tiptap/extension-underline": "^2.6.6",
 		"@tiptap/pm": "^2.6.6",
 		"@tiptap/starter-kit": "^2.6.6",

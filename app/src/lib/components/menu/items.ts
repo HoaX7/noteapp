@@ -1,5 +1,6 @@
-import { appWindow } from "@tauri-apps/api/window";
+import { appWindow, WebviewWindow } from "@tauri-apps/api/window";
 import { openShortNoteWindow } from "../../../api";
+import { SHORT_NOTE_WINDOW_LABEL } from "../../../utils/constants";
 
 export type MenuItemProps = {
   name: string;
@@ -17,6 +18,11 @@ const emitSave = () => {
 	});
 	window.dispatchEvent(event);
 };
+const quitApp = () => {
+	const shortnotesWindow = WebviewWindow.getByLabel(SHORT_NOTE_WINDOW_LABEL);
+	shortnotesWindow?.close?.();
+	appWindow.close();
+};
 export const getMenuBar = (page?: string, cb?: () => void) => [
 	{
 		name: "File",
@@ -33,12 +39,17 @@ export const getMenuBar = (page?: string, cb?: () => void) => [
 				shortcut: "Ctrl+Space",
 			},
 			{
+				name: "Refresh",
+				command: () => window.location.reload(),
+				shortcut: "F5"
+			},
+			{
 				name: "Settings",
 				command: () => cb?.(),
 			},
 			{
 				name: "Quit",
-				command: appWindow.close,
+				command: quitApp,
 				classname: "border-t",
 			},
 		],

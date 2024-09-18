@@ -32,7 +32,8 @@
       },
       "dialog": {
         "all": false,
-        "open": true
+        "open": true,
+        "confirm": true
       }
     },
     "bundle": {
@@ -59,7 +60,7 @@
         "providerShortName": null,
         "signingIdentity": null
       },
-      "resources": [],
+      "resources": ["../docs/readme.md"],
       "shortDescription": "Perfect for quick notes or detailed plans, stay on top of your day and never lose track of your ideas again!",
       "targets": "all",
       "windows": {

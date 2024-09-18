@@ -9,6 +9,8 @@
   import Alert from "$lib/components/common/Alert.svelte";
   import type { ContextProps } from "../types";
   import ErrorComponent from "$lib/components/common/ErrorComponent.svelte";
+  import TauriEventListener from "$lib/hooks/TauriEventListener.svelte";
+  import { TAURI_EVENTS } from "../utils/constants";
 
   const ctx = ContextStore.getContext()
   let content = "";
@@ -16,6 +18,7 @@
   let saving = false;
   let hasPage = false;
   let error = "";
+  let editorComponentRef: any;
   
   const getPath = (ctxObj: ContextProps) => `${ctxObj.page}.${ctxObj.ext}`;
 
@@ -47,8 +50,14 @@
     hasPage = $ctx?.page?.length > 0;
     hasPage && loadData(getPath($ctx));
   }
+
+  const handleContentUpdate = (data: { payload: { text: string; page: string; }; }) => {
+    if ($ctx?.page?.toLowerCase() !== data.payload.page.toLowerCase()) return;
+    editorComponentRef?.appendContent?.(data.payload.text);
+  }
 </script>
 
+<TauriEventListener eventName={TAURI_EVENTS.REFRESH_NOTES} callback={handleContentUpdate} />
 {#if saving}
 <Alert>
   <Typography variant="div" weight="normal" fontSize="sm" classname="flex gap-1">
@@ -73,9 +82,9 @@
     </Typography>
   {/if}
 </Typography>
-<div class="mt-3">
+<div class="my-3 mb-10">
   {#if !loading && hasPage}
-    <Editor onData={handleOnData} content={content} />
+    <Editor onData={handleOnData} content={content} bind:this={editorComponentRef} />
   {/if}
 </div>
 </div>

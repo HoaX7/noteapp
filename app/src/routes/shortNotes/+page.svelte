@@ -5,11 +5,15 @@
   import { saveContent } from "../../api";
   import clsx from "clsx";
   import ErrorComponent from "$lib/components/common/ErrorComponent.svelte";
+  import ContextStore from "../../store/context";
+  import { emit } from "@tauri-apps/api/event";
+  import { TAURI_EVENTS } from "../../utils/constants";
 
-  const filename = "shortnotes.md";
+  const filename = "shortnotes";
   let saving = false;
   let previousContent = "";
   let error = ""
+  const ctx = ContextStore.getContext();
   const handleSave = async (text: string) => {
     try {
         if (previousContent === text) return false;
@@ -20,6 +24,7 @@
             append: true
         });
         previousContent = text;
+        await emit(TAURI_EVENTS.REFRESH_NOTES, { text, page: filename });
         saving = false;
         return true;
     } catch (err: any) {

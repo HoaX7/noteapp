@@ -96,7 +96,7 @@
   };
 </script>
 
-<div bind:this={ref} class={"bg-white rounded-md border shadow-lg flex items-center justify-center"}>
+<div bind:this={ref} class={"bg-white rounded-md border shadow-lg flex place-items-center"}>
   {#if showLinkInput}
     <div class="rounded-md p-1 px-2">
       <input
