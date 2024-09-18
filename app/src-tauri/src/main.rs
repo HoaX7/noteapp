@@ -28,7 +28,8 @@ fn main() {
             delete_file,
             open_shortnote_window,
             get_settings,
-            save_settings
+            save_settings,
+            search_contents
         ])
         .run(tauri::generate_context!())
         .expect("error running application");
