@@ -55,6 +55,16 @@ jobs:
         # NOTE: include yarn build if frontend has build script
         run: npm install ci
 
+      - name: Decode Macos Certificates
+        if: matrix.platform == 'macos-latest'
+        run: |
+          echo "$MACOS_CERTIFICATE" | base64 --decode > macos_certificate.p12
+          security import macos_certificate.p12 -k ~/Library/Keychains/login.keychain-db -P "$MACOS_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$MACOS_CERTIFICATE_PASSWORD" ~/Library/Keychains/login.keychain-db
+        env:
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+          MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
         env:
