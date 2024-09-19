@@ -58,9 +58,9 @@ jobs:
       - name: Setup certificate 
         if: matrix.platform == 'macos-latest'
         run: |
-          echo "${{ secrets.CERTIFICATE }}" | base64 --decode > certificate.p12
+          echo "${{ secrets.MACOS_CERTIFICATE }}" | base64 --decode > certificate.p12
           security create-keychain -p "" build.keychain
-          security import certificate.p12 -k build.keychain -P "${{ secrets.CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign
+          security import certificate.p12 -k build.keychain -P "${{ secrets.MACOS_CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
         env:
           MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
