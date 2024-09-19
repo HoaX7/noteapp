@@ -55,12 +55,13 @@ jobs:
         # NOTE: include yarn build if frontend has build script
         run: npm install ci
 
-      - name: Decode Macos Certificates
+      - name: Setup certificate 
         if: matrix.platform == 'macos-latest'
         run: |
-          echo "$MACOS_CERTIFICATE" | base64 --decode > macos_certificate.p12
-          security import macos_certificate.p12 -k ~/Library/Keychains/login.keychain-db -P "$MACOS_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple: -s -k "$MACOS_CERTIFICATE_PASSWORD" ~/Library/Keychains/login.keychain-db
+          echo "${{ secrets.MACOS_CERTIFICATE }}" | base64 --decode > certificate.p12
+          security create-keychain -p "" build.keychain
+          security import certificate.p12 -k build.keychain -P "${{ secrets.MACOS_CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
         env:
           MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
           MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
