@@ -5,17 +5,35 @@
   import { saveContent } from "../../api";
   import clsx from "clsx";
   import ErrorComponent from "$lib/components/common/ErrorComponent.svelte";
-  import ContextStore from "../../store/context";
   import { emit } from "@tauri-apps/api/event";
-  import { TAURI_EVENTS } from "../../utils/constants";
+  import { Shortcuts, TAURI_EVENTS } from "../../utils/constants";
+  import WindowEvent from "$lib/hooks/WindowEvent.svelte";
+  import SettingStore from "../../store/settings";
 
   const filename = "shortnotes";
   let saving = false;
   let previousContent = "";
   let error = ""
-  const ctx = ContextStore.getContext();
+  const ctx = SettingStore.getContext();
+  const TIME_GAP = 2; // time delay to group shortnotes under a timestamp.
+  const appendDate = (text: string) => {
+    const now = new Date().getTime();
+    const appendDateAt = $ctx.lastQuickNoteAt
+    let canAppendDate = !appendDateAt || now >= appendDateAt;
+    if (canAppendDate) {
+        const now = new Date().toLocaleString();
+        const dt = new Date();
+        ctx.update((state) => {
+            state.lastQuickNoteAt = dt.setMinutes(dt.getMinutes() + TIME_GAP);
+            return state;
+        })
+        return `${now}\n${text}`;
+    }
+    return text;
+  }
   const handleSave = async (text: string) => {
     try {
+        text = appendDate(text);
         if (previousContent === text) return false;
         saving = true;
         await saveContent({
@@ -34,8 +52,15 @@
     saving = false;
     return false;
   }
+
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === "q") {
+        appWindow.close();
+    }
+  }
 </script>
 
+<WindowEvent callback={handleKeyPress} event="keydown" />
 <div class={clsx("border-b p-2 bg-white fixed h-8 user-select-none top-0 left-0 right-0",
     "flex items-center justify-between"
 )} data-tauri-drag-region>
@@ -44,7 +69,11 @@
     {/if}
     <div class="flex gap-2">
         <Typography variant="div" weight="medium" fontSize="sm">
-            Press <span class="rounded px-2 bg-gray-200">ctrl+s</span> to save
+            Press <span class="rounded px-2 bg-gray-200">
+                {Shortcuts($ctx.os).SAVE}
+            </span> to save, <span class="rounded px-2 bg-gray-200">
+                {Shortcuts($ctx.os).QUIT}
+            </span> to quit 
         </Typography>
         {#if saving}
             <Typography variant="div" weight="normal" fontSize="sm" classname="bg-gray-200 px-2 rounded">

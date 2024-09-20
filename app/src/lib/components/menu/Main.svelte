@@ -8,9 +8,10 @@
   import Settings from "../settings/Index.svelte";
   import TauriEventListener from "$lib/hooks/TauriEventListener.svelte";
   import { TAURI_EVENTS } from "../../../utils/constants";
-  import { emit } from "@tauri-apps/api/event";
+  import SettingStore from "../../../store/settings";
 
   const ctx = ContextStore.getContext();
+  const settingCtx = SettingStore.getContext();
   let menubar = [];
   let activeMenu = "";
   let showSettings = false;
@@ -18,7 +19,7 @@
   const closeMenu = () => {
     activeMenu = "";
   };
-  $: menubar = getMenuBar($ctx.page, () => (showSettings = true));
+  $: menubar = getMenuBar($ctx.page, $settingCtx.os, () => (showSettings = true));
 
   const closeSettings = () => {
     showSettings = false;
