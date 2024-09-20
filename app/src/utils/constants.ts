@@ -6,3 +6,11 @@ export enum TAURI_EVENTS {
 }
 
 export const SHORT_NOTE_WINDOW_LABEL = "short_notes_window";
+
+export const Shortcuts = (os?: string) => ({
+	QUIT: `${os === MAC_OS ? "Cmd" : "Ctrl"}+Q`,
+	SAVE: `${os === MAC_OS ? "Cmd" : "Ctrl"}+S`,
+	QUICKNOTE: `${os === MAC_OS ? "Cmd" : "Ctrl"}+Enter`
+});
+
+export const MAC_OS = "darwin";

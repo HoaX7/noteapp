@@ -1,4 +1,4 @@
-export const settingsManu = [ {
+export const settingsMenu = [ {
 	name: "Home",
 	command: () => {}
 } ];

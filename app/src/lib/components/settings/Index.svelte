@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { settingsManu } from ".";
+  import { settingsMenu } from ".";
   import Modal from "../common/Modal.svelte";
   import Portal from "../common/Portal.svelte";
   import MenuItems from "../menu/MenuItems.svelte";
@@ -34,13 +34,13 @@
     {#if error}
       <Error {error} isModal />
     {/if}
-    <div slot="title">Preferneces</div>
+    <div slot="title">Preferences</div>
     <div class="grid grid-cols-6 gap-4">
       <MenuItems
         containerClass="col-span-2"
         show
         selected={selectedTab.name}
-        items={settingsManu}
+        items={settingsMenu}
       />
       <div class="col-span-4">
         <svelte:component this={selectedTab.component} {settings} />
