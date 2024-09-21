@@ -4,7 +4,7 @@ use crate::shortcuts;
 
 struct MenuItems{}
 impl MenuItems {
-    const SHORTNOTES: (&str, &str) = ("shortnotes", "Shortnotes     Ctrl+Space");
+    const SHORTNOTES: (&str, &str) = ("shortnotes", "Shortnotes     Ctrl+Enter");
     const SETTINGS: (&str, &str) = ("settings", "Settings");
     const QUIT: (&str, &str) = ("quit", "Quit");
 }
