@@ -9,7 +9,7 @@
   import { page } from "$app/stores";
   import SettingStore from "../store/settings";
   import { MAC_OS } from "../utils/constants";
-  import "../api/update";
+  // import "../api/update";
   import { getVersion } from "@tauri-apps/api/app";
 
   ContextStore.init();
