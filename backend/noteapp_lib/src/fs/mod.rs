@@ -13,6 +13,11 @@ pub fn is_supported_file(path: &PathBuf) -> bool {
 }
 
 pub fn try_read(path: &Path, create: bool) -> Result<String, Error> {
+    // if `create` is true we need to make sure
+    // the dirs exist
+    if create {
+        create_dir_all(path)?;
+    }
     let mut file = fs::OpenOptions::new()
         .read(true)
         .write(true)
@@ -64,8 +69,7 @@ pub fn get_dir_files(dir: &Path) -> Result<Vec<PathBuf>, Error> {
     Ok(files)
 }
 
-#[allow(dead_code)]
-pub async fn create_dir_all(path: &Path) -> Result<(), Error> {
+pub fn create_dir_all(path: &Path) -> Result<(), Error> {
     if let Some(dir) = path.parent() {
         fs::create_dir_all(dir)?
     }

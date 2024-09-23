@@ -1,6 +1,6 @@
 import { appWindow, WebviewWindow } from "@tauri-apps/api/window";
 import { openShortNoteWindow } from "../../../api";
-import { SHORT_NOTE_WINDOW_LABEL, Shortcuts } from "../../../utils/constants";
+import { QUICKNOTE_WINDOW_LABEL, Shortcuts } from "../../../utils/constants";
 
 export type MenuItemProps = {
   name: string;
@@ -19,8 +19,8 @@ const emitSave = () => {
 	window.dispatchEvent(event);
 };
 const quitApp = () => {
-	const shortnotesWindow = WebviewWindow.getByLabel(SHORT_NOTE_WINDOW_LABEL);
-	shortnotesWindow?.close?.();
+	const quicknotesWindow = WebviewWindow.getByLabel(QUICKNOTE_WINDOW_LABEL);
+	quicknotesWindow?.close?.();
 	appWindow.close();
 };
 export const getMenuBar = (page?: string, os?: string, cb?: () => void) => {
@@ -36,7 +36,7 @@ export const getMenuBar = (page?: string, os?: string, cb?: () => void) => {
 					disabled: !page,
 				},
 				{
-					name: "Shortnotes",
+					name: "quicknotes",
 					command: openShortNoteWindow,
 					shortcut: shortcutObj.QUICKNOTE,
 				},

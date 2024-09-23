@@ -5,32 +5,24 @@
   import Typography from "../common/Typography.svelte";
   import MenuItems from "./MenuItems.svelte";
   import { getMenuBar } from "./items";
-  import Settings from "../settings/Index.svelte";
-  import TauriEventListener from "$lib/hooks/TauriEventListener.svelte";
   import { TAURI_EVENTS } from "../../../utils/constants";
   import SettingStore from "../../../store/settings";
+  import { emit } from "@tauri-apps/api/event";
 
   const ctx = ContextStore.getContext();
   const settingCtx = SettingStore.getContext();
   let menubar = [];
   let activeMenu = "";
-  let showSettings = false;
 
   const closeMenu = () => {
     activeMenu = "";
   };
-  $: menubar = getMenuBar($ctx.page, $settingCtx.os, () => (showSettings = true));
-
-  const closeSettings = () => {
-    showSettings = false;
-  }
+  $: menubar = getMenuBar($ctx.page, $settingCtx.os, () => {
+    emit(TAURI_EVENTS.SHOW_SETTINGS);
+  });
 </script>
 
-<TauriEventListener eventName={TAURI_EVENTS.SHOW_SETTINGS} callback={() => showSettings = true} />
 <WindowEvent callback={closeMenu} event="click" />
-{#if showSettings}
-  <Settings on:close={closeSettings} />
-{/if}
 <div class="flex items-center gap-1 mx-2">
   <Icon alt="scribe" src="/assets/logo.png" width="24" />
   {#each menubar as menu}

@@ -6,6 +6,9 @@ use std::path::{Path, PathBuf};
 use super::is_supported_file;
 
 pub async fn try_read(path: &PathBuf, create: bool) -> Result<String, Error> {
+    if create {
+        create_dir_all(path).await?;
+    }
     let mut file = fs::OpenOptions::new()
         .read(true)
         .write(true)

@@ -21,3 +21,4 @@ thiserror = "1.0"
 toml = "0.8.19"
 serde = { version = "1.0.208", features = ["derive"] }
 ignore = "0.4.23"
+dirs = "5.0.1"
