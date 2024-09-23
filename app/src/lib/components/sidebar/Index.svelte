@@ -45,8 +45,8 @@
     const result = await getFileList();
       pages = await Promise.all(result.map(async (page) => {
         const { filename, ext } = await parseFilename(page);
-        const isShortNote = filename.toLowerCase() === "shortnotes";
-        return getPageObject(filename, ext, isShortNote);
+        const isQuickNote = filename.toLowerCase() === "quicknotes";
+        return getPageObject(filename, ext, isQuickNote);
       }));
       if (canUpdate) {
         const selected = pages[0];

@@ -78,7 +78,11 @@
   <Icon src="assets/images/notepad.svg" alt="notepad" width="18" /> 
   {#if $ctx.isShortNote}
     <Typography variant="div" weight="medium" fontSize="xl">
-      Take shortnotes from anywhere by pressing 'Ctrl+Space'
+      Take quicknotes from anywhere by pressing 'Ctrl+Space'
+    </Typography>
+    {:else}
+    <Typography variant="div" weight="medium" fontSize="xl">
+      {$ctx.page}
     </Typography>
   {/if}
 </Typography>

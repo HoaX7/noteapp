@@ -37,7 +37,7 @@ pub async fn rename_file(cur_name: &str, new_name: &str) -> Result<(), Controlle
 
 #[tauri::command]
 pub async fn open_shortnote_window(app: tauri::AppHandle) {
-    shortcuts::make_shortnotes_window(&app);
+    shortcuts::make_quicknote_window(&app);
 }
 
 #[tauri::command]

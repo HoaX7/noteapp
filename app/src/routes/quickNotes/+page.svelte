@@ -10,12 +10,12 @@
   import WindowEvent from "$lib/hooks/WindowEvent.svelte";
   import SettingStore from "../../store/settings";
 
-  const filename = "shortnotes";
+  const filename = "quicknotes";
   let saving = false;
   let previousContent = "";
   let error = ""
   const ctx = SettingStore.getContext();
-  const TIME_GAP = 2; // time delay to group shortnotes under a timestamp.
+  const TIME_GAP = 2; // time delay to group quicknotes under a timestamp.
   const appendDate = (text: string) => {
     const now = new Date().getTime();
     const appendDateAt = $ctx.lastQuickNoteAt
@@ -83,7 +83,7 @@
     </div>
     <button class="hover:bg-gray-200 text-black py-0 px-2 rounded-lg"
         on:click={() => {
-            // save data to shortnotes file and close
+            // save data to quicknotes file and close
             appWindow.close();
         }}
     >
