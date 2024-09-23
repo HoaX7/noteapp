@@ -14,7 +14,7 @@
       ],
       "bundle": {
         "windows": {
-          "signCommand": "codesign -fs certificate.p12 --deep %1"
+          "signCommand": "codesign --deep --force --verbose --sign noteapp %1"
         }
       }
     }
