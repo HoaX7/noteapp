@@ -82,7 +82,7 @@
     </Typography>
     {:else}
     <Typography variant="div" weight="medium" fontSize="xl">
-      {$ctx.page}
+      {$ctx.page || "Untitled"}
     </Typography>
   {/if}
 </Typography>
