@@ -14,7 +14,7 @@
       ],
       "bundle": {
         "windows": {
-          "signCommand": "codesign -fs my-new-cert --deep"
+          "signCommand": "codesign -fs certificate.p12 --deep /Users/runner/work/noteapp/noteapp/app/src-tauri/target/release/bundle/macos/scribe.app"
         }
       }
     }
