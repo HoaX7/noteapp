@@ -65,7 +65,7 @@ jobs:
           security unlock-keychain -p "" build.keychain
           security import certificate.p12 -k build.keychain -P "${{ secrets.MACOS_CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign -A
           security find-identity
-          security set-key-partition-list -S 'apple-tool:,apple:,codesign:' -s -k ${{ secrets.MACOS_CERTIFICATE_PASSWORD }} build.keychain
+          security set-key-partition-list -S 'apple-tool:,apple:,codesign:' -s -k "" build.keychain
         env:
           MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
           MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
