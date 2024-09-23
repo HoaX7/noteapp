@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest]
+        platform: [macos-latest, windows-latest]
         # platform: [macos-latest, ubuntu-latest, windows-latest]
         include:
           # - os: ubuntu-latest
