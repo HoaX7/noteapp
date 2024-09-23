@@ -12,6 +12,7 @@
 
   onMount(async () => {
     unlisten = await listen(eventName, callback);
+    console.log("listening....");
   });
 
   onDestroy(() => {

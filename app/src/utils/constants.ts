@@ -5,7 +5,7 @@ export enum TAURI_EVENTS {
     RELOAD_FILES = "reload_files",
 }
 
-export const SHORT_NOTE_WINDOW_LABEL = "short_notes_window";
+export const QUICKNOTE_WINDOW_LABEL = "quicknotes_window";
 
 export const Shortcuts = (os?: string) => ({
 	QUIT: `${os === MAC_OS ? "Cmd" : "Ctrl"}+Q`,
