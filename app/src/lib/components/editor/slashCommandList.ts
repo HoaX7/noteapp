@@ -37,4 +37,8 @@ export const getList = (editor: Editor) => [
 		name: "Block Quotes",
 		click: () => editor.chain().focus().toggleBlockquote().run(),
 	},
+	{
+		name: "Table",
+		click: () => editor.chain().focus().insertTable().run(),
+	}
 ];
