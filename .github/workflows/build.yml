@@ -86,7 +86,7 @@ jobs:
           prerelease: false
           updaterJsonPreferNsis: true
 
-    - name: Verify signature
-      if: matrix.platform == 'macos-latest'
-      run: |
-        codesign -v -vvvv
+      - name: Verify signature
+        if: matrix.platform == 'macos-latest'
+        run: |
+          codesign -v -vvvv
