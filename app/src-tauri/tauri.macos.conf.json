@@ -14,7 +14,7 @@
       ],
       "bundle": {
         "windows": {
-          "signCommand": "codesign --deep --force --verbose --sign noteapp %1"
+          "signCommand": "codesign -s - -f %1"
         }
       }
     }
