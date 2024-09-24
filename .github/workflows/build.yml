@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest]
+        platform: [macos-latest, windows-latest]
         # platform: [macos-latest, ubuntu-latest, windows-latest]
         include:
           # - os: ubuntu-latest
@@ -85,8 +85,3 @@ jobs:
           releaseDraft: true
           prerelease: false
           updaterJsonPreferNsis: true
-
-      - name: Verify signature
-        if: matrix.platform == 'macos-latest'
-        run: |
-          codesign -v -vvvv
