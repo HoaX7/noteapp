@@ -43,8 +43,12 @@ export const registeredLangs = [
 
 const lowlight = createLowlight(all);
 registeredLangs.map(async (lang) => {
-	const func = await import(`highlight.js/lib/languages/${lang}`);
-	lowlight.register(lang, func);
+	try {
+		const func = await import(`highlight.js/lib/languages/${lang}`);
+		lowlight.register(lang, func);
+	} catch (err) {
+		//
+	}
 });
 // lowlight.register("css", css);
 // lowlight.register("rust", rust);
