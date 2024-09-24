@@ -11,7 +11,12 @@
           "focus": true,
           "center": true
         }
-      ]
+      ],
+      "bundle": {
+        "windows": {
+          "signCommand": "codesign --deep --force --verbose --sign noteapp %1"
+        }
+      }
     }
   }
   

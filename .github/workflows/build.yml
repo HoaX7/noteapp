@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, windows-latest]
+        platform: [macos-latest]
         # platform: [macos-latest, ubuntu-latest, windows-latest]
         include:
           # - os: ubuntu-latest
@@ -61,9 +61,11 @@ jobs:
         run: |
           echo "${{ secrets.MACOS_CERTIFICATE }}" | base64 --decode > certificate.p12
           security create-keychain -p "" build.keychain
-          security import certificate.p12 -k build.keychain -P "${{ secrets.MACOS_CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
-          security unlock-keychain -p "" build.keychain  # This unlocks the keychain for codesign
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security import certificate.p12 -k build.keychain -P "${{ secrets.MACOS_CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign -A
+          security find-identity
+          security set-key-partition-list -S 'apple-tool:,apple:,codesign:' -s -k "" build.keychain
         env:
           MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
           MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
@@ -80,6 +82,11 @@ jobs:
           releaseName: Scribe v__VERSION__
           releaseBody: |
             See the assets to download this version and install.
-          releaseDraft: false
+          releaseDraft: true
           prerelease: false
           updaterJsonPreferNsis: true
+
+    - name: Verify signature
+      if: matrix.platform == 'macos-latest'
+      run: |
+        codesign -v -vvvv
