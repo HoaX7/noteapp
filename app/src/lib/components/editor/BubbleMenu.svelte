@@ -84,16 +84,22 @@
   			.extendMarkRange("link")
   			.setLink({
   				href: link,
-          target: "_blank",
-          rel: "noopener noreferrer nofollow" 
+          		target: "_blank",
+          		rel: "noopener noreferrer nofollow" 
   			})
   			.run();
+		link = "";
   		showLinkInput = false;
   	} else if ((e.code === "Backspace" || e.code === "Enter") && link === "") {
   		unlink();
+		link = "";
   		showLinkInput = false;
   	}
   };
+
+  $: if (editor?.isActive?.("link")) {
+	link = editor.getAttributes("link").href || "";
+  }
 </script>
 
 <div bind:this={ref} class={"bg-white rounded-md border shadow-lg flex place-items-center"}>

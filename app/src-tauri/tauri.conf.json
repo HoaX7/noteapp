@@ -58,7 +58,8 @@
         "exceptionDomain": "",
         "frameworks": [],
         "providerShortName": null,
-        "signingIdentity": "noteapp"
+        "signingIdentity": "noteapp",
+        "minimumSystemVersion": "10.13"
       },
       "resources": ["./docs/readme.md"],
       "shortDescription": "Perfect for quick notes or detailed plans, stay on top of your day and never lose track of your ideas again!",
