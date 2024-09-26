@@ -66,7 +66,7 @@
   		name: "Sub",
   		key: "subscript",
   		icon: "assets/images/subscript.svg",
-  		click: () => editor.chain().focus().toggleSubscript().run(),
+  		click: () => editor.chain().focus().toggleSubscript().run,
   		classname: "!mr-[2px]"
   	},
   ];

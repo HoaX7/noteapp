@@ -1,5 +1,5 @@
 import type { NodeViewRendererProps } from "@tiptap/core";
-import lowlight, { registeredLangs } from "../extensions/registerCodeExt";
+import { registeredLangs } from "../extensions/registerCodeExt";
 
 export default ({
 	getPos,
@@ -36,6 +36,7 @@ export default ({
 
 	const pre = document.createElement("pre");
 	const content = document.createElement("code");
+	pre.setAttribute("spellcheck", "false");
 	pre.appendChild(content);
 	dom.append(select, pre);
 

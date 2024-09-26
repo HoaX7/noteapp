@@ -9,10 +9,6 @@
   import { debounce } from "../../../utils";
   import WindowEvent from "$lib/hooks/WindowEvent.svelte";
   import Typography from "@tiptap/extension-typography";
-  import Table from "@tiptap/extension-table";
-  import TableCell from "@tiptap/extension-table-cell";
-  import TableHeader from "@tiptap/extension-table-header";
-  import TableRow from "@tiptap/extension-table-row";
 
   let editor: Editor;
   let editorContainer: HTMLDivElement;
@@ -61,12 +57,6 @@
         BubbleMenu.configure({ element: bubbleMenuEl }),
         SlashCommands,
         Typography,
-        Table.configure({
-          resizable: true,
-        }),
-        TableRow,
-        TableHeader,
-        TableCell,
       ],
       onTransaction() {
         editor = editor;
