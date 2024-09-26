@@ -50,3 +50,8 @@ export const saveSettings = async (newSettings: Partial<SettingProps>) => {
 	if (isEmptyObject(newSettings)) return;
 	return invoke("save_settings", { newSettings });
 };
+
+export const searchContent = async (query: string): Promise<string[]> => {
+	if (!query) return [];
+	return invoke("search_contents", { query });
+};

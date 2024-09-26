@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use noteapp_lib::{app_settings, storage::StorageType};
 
 use crate::{controller::*, shortcuts};
@@ -35,7 +37,7 @@ pub async fn rename_file(cur_name: &str, new_name: &str) -> Result<(), Controlle
 
 #[tauri::command]
 pub async fn open_shortnote_window(app: tauri::AppHandle) {
-    shortcuts::make_shortnotes_window(&app);
+    shortcuts::make_quicknote_window(&app);
 }
 
 #[tauri::command]
@@ -55,4 +57,9 @@ pub async fn save_settings(new_settings: app_settings::AppSettings) -> Result<()
         app_settings::save_settings(&current_settings)?;
     }
     Ok(())
+}
+
+#[tauri::command]
+pub fn search_contents(query: &str) -> Result<Vec<PathBuf>, ()> {
+    StorageType::Disk.search_strategy(query)
 }

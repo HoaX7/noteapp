@@ -1,5 +1,6 @@
-import { appWindow } from "@tauri-apps/api/window";
+import { appWindow, WebviewWindow } from "@tauri-apps/api/window";
 import { openShortNoteWindow } from "../../../api";
+import { QUICKNOTE_WINDOW_LABEL, Shortcuts } from "../../../utils/constants";
 
 export type MenuItemProps = {
   name: string;
@@ -17,30 +18,43 @@ const emitSave = () => {
 	});
 	window.dispatchEvent(event);
 };
-export const getMenuBar = (page?: string, cb?: () => void) => [
-	{
-		name: "File",
-		items: [
-			{
-				name: "Save",
-				command: emitSave,
-				shortcut: "Ctrl+S",
-				disabled: !page,
-			},
-			{
-				name: "Shortnotes",
-				command: openShortNoteWindow,
-				shortcut: "Ctrl+Space",
-			},
-			{
-				name: "Settings",
-				command: () => cb?.(),
-			},
-			{
-				name: "Quit",
-				command: appWindow.close,
-				classname: "border-t",
-			},
-		],
-	},
-];
+const quitApp = () => {
+	const quicknotesWindow = WebviewWindow.getByLabel(QUICKNOTE_WINDOW_LABEL);
+	quicknotesWindow?.close?.();
+	appWindow.close();
+};
+export const getMenuBar = (page?: string, os?: string, cb?: () => void) => {
+	const shortcutObj = Shortcuts(os);
+	return [
+		{
+			name: "File",
+			items: [
+				{
+					name: "Save",
+					command: emitSave,
+					shortcut: shortcutObj.SAVE,
+					disabled: !page,
+				},
+				{
+					name: "quicknotes",
+					command: openShortNoteWindow,
+					shortcut: shortcutObj.QUICKNOTE,
+				},
+				{
+					name: "Refresh",
+					command: () => window.location.reload(),
+					shortcut: "F5"
+				},
+				{
+					name: "Settings",
+					command: () => cb?.(),
+				},
+				{
+					name: "Quit",
+					command: quitApp,
+					classname: "border-t",
+				},
+			],
+		},
+	];
+};

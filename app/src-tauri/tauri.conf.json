@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "scribe",
-    "version": "0.1.0"
+    "version": "0.4.2"
   },
   "tauri": {
     "allowlist": {
@@ -32,7 +32,8 @@
       },
       "dialog": {
         "all": false,
-        "open": true
+        "open": true,
+        "confirm": true
       }
     },
     "bundle": {
@@ -57,9 +58,10 @@
         "exceptionDomain": "",
         "frameworks": [],
         "providerShortName": null,
-        "signingIdentity": null
+        "signingIdentity": "noteapp",
+        "minimumSystemVersion": "10.13"
       },
-      "resources": [],
+      "resources": ["./docs/readme.md"],
       "shortDescription": "Perfect for quick notes or detailed plans, stay on top of your day and never lose track of your ideas again!",
       "targets": "all",
       "windows": {
@@ -74,7 +76,7 @@
     "updater": {
       "active": true,
       "dialog": true,
-      "endpoints": ["https://scribe.izzi-xenex.xyz/tauri/{{target}}/{{arch}}/{{current_version}}"],
+      "endpoints": ["https://scribe.izzi-xenex.xyz/tauri/{{target}}/{{arch}}/{{current_version}}", "https://gist.githubusercontent.com/HoaX7/26a914ff0cdfe097c949db0ac825a94f/raw/"],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEJDQzY3MjU3MDQ3MDQ1OEYKUldTUFJYQUVWM0xHdktsNDY4RHREYzZnV3BDV3pxS1NVRHNQZGZhSHZqOTlvbXZ1YWdtdkU3b2kK",
       "windows": {
         "installMode": "passive"

@@ -12,10 +12,11 @@ export default ({
 	const select = document.createElement("select");
 	select.classList.add("bg-gray-100", "px-2", "rounded", "py-1");
 	select.contentEditable = "false";
-	select.onchange = (e: any) => {
+	select.onchange = async (e: any) => {
 		if (typeof getPos !== "function") return;
+		const lang = e.target.value;
 		editor.view.dispatch(
-			editor.view.state.tr.setNodeMarkup(getPos(), undefined, { language: e.target.value })
+			editor.view.state.tr.setNodeMarkup(getPos(), undefined, { language: lang })
 		);
 	};
 	const optionAuto = document.createElement("option");
@@ -35,6 +36,7 @@ export default ({
 
 	const pre = document.createElement("pre");
 	const content = document.createElement("code");
+	pre.setAttribute("spellcheck", "false");
 	pre.appendChild(content);
 	dom.append(select, pre);
 

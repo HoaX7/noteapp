@@ -14,7 +14,22 @@ fn main() {
     tauri::Builder::default()
         .system_tray(make_tray())
         .setup(|app| {
+            #[cfg(target_os = "macos")]
+            app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+
             let window = app.get_window("main").unwrap();
+            #[cfg(target_os = "macos")]
+            {
+                let cloned_window = window.clone();
+                window.on_window_event(move |event| match event {
+                    tauri::WindowEvent::CloseRequested { api, .. } => {
+                        cloned_window.hide().unwrap();
+                        api.prevent_close();
+                    }
+                    _ => {}
+                });
+            }
+
             set_shadow(&window, true).expect("window shadow unsupported for this platform");
             shortcuts::register_shortcuts(app);
             Ok(())
@@ -28,7 +43,8 @@ fn main() {
             delete_file,
             open_shortnote_window,
             get_settings,
-            save_settings
+            save_settings,
+            search_contents
         ])
         .run(tauri::generate_context!())
         .expect("error running application");

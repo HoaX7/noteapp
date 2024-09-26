@@ -46,11 +46,14 @@ export const SlashCommands = Node.create<SlashCommandOptions>({
 					let renderer: SvelteRenderer;
 					let wrapper: HTMLDivElement;
 					return {
-						onStart: () => {
+						onStart: (props) => {
 							wrapper = document.createElement("div");
 							this.options.component = new SlashCommandMenu({
 								target: wrapper,
-								props: { editor: this.editor, } as any
+								props: {
+									editor: this.editor,
+									range: props.range
+								} as any
 							});
 							renderer = new SvelteRenderer(this.options.component, { element: wrapper });
 							this.options.tippy = tippy(editorElement, {
@@ -58,7 +61,7 @@ export const SlashCommands = Node.create<SlashCommandOptions>({
 								content: renderer.dom,
 								trigger: "manual",
 								placement: "bottom-start",
-								getReferenceClientRect: null,
+								getReferenceClientRect: props.clientRect as any,
 								showOnCreate: true,
 							});
 						},
@@ -67,7 +70,7 @@ export const SlashCommands = Node.create<SlashCommandOptions>({
 								this.options.tippy?.hide();
 								return true;
 							}
-							return this.options.component?.onKeyDown?.(props.event);;
+							return this.options.component?.onKeyDown?.(props.event, props.range);
 						},
 						onUpdate: (props) => {
 							renderer.updateProps(props);

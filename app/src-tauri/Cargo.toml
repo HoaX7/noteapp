@@ -1,6 +1,6 @@
 [package]
 name = "scribe"
-version = "0.1.0"
+version = "0.4.2"
 description = "A note taking app with seamless user experience"
 authors = ["HoaX7"]
 license = ""
@@ -17,9 +17,16 @@ tauri-build = { version = "1.5.4", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.7.2", features = [ "dialog-open", "path-all", "window-close", "global-shortcut", "global-shortcut-all", "os-all", "window-unmaximize", "system-tray", "window-maximize", "window-minimize", "window-start-dragging", "window-hide"] }
+tauri = { version = "1.7.2", features = [ "dialog-confirm", "updater", "dialog-open", "path-all", "window-close", "global-shortcut", "global-shortcut-all", "os-all", "window-unmaximize", "system-tray", "window-maximize", "window-minimize", "window-start-dragging", "window-hide"] }
 window-shadows = "0.2.2"
 noteapp_lib = { path = "../../backend/noteapp_lib" }
+
+[target.'cfg(macos)'.dependencies]
+cocoa = "0.26.0"
+core-graphics = "0.24.0"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3.9", features = ["winuser", "dwmapi"] }
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.

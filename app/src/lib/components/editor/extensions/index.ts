@@ -3,12 +3,17 @@ import CodeBlockLowLight from "@tiptap/extension-code-block-lowlight";
 import lowlight from "./registerCodeExt";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
-import codeblockNodeView from "../nodeView/codeblockNodeView";
+import codeblockNodeView from "../nodeView/codeblock";
 import Link from "@tiptap/extension-link";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import Underline from "@tiptap/extension-underline";
 import Highlight from "@tiptap/extension-highlight";
+import Table from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
+import tableNodeView from "../nodeView/table";
 
 export const StarterKitOptions = {
 	blockquote: { HTMLAttributes: { class: "pl-2 my-2 border-l-2 border-gray-300" } },
@@ -22,7 +27,12 @@ export const StarterKitOptions = {
 };
 
 export default [
-	Placeholder.configure({ placeholder: "Write something, or press '/' for commands..." }),
+	Placeholder.configure({
+		placeholder: ({ node }) => {
+			if ([ "table", "codeBlock", "taskList" ].includes(node.type.name)) return "";
+			return "Write something, or press '/' for commands...";
+		}, 
+	}),
 	CodeBlockLowLight.extend({
 		addNodeView() {
 			return codeblockNodeView;
@@ -40,4 +50,12 @@ export default [
 	Superscript,
 	Underline,
 	Highlight,
+	Table.extend({
+	  	addNodeView() {
+			return tableNodeView;
+	  	},
+	}).configure({ resizable: true, }),
+	TableRow,
+	TableHeader,
+	TableCell,
 ];

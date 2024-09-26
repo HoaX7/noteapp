@@ -8,6 +8,7 @@
   import { SlashCommands } from "./extensions/slashCommands";
   import { debounce } from "../../../utils";
   import WindowEvent from "$lib/hooks/WindowEvent.svelte";
+  import Typography from "@tiptap/extension-typography";
 
   let editor: Editor;
   let editorContainer: HTMLDivElement;
@@ -17,15 +18,18 @@
   let previousContent = "";
   export let onData: (data: string) => Promise<boolean> | boolean;
   export let editorOptions: Partial<EditorOptions> = {
-      onUpdate: debounce((props: EditorEvents["update"]) => saveContent(props.editor.getHTML()), 1000),
-    };
+    onUpdate: debounce(
+      (props: EditorEvents["update"]) => saveContent(props.editor.getHTML()),
+      1000
+    ),
+  };
 
   const saveContent = async (text: string) => {
     if (previousContent === text) return;
     let res = await onData?.(text);
     previousContent = text;
     return res;
-  }
+  };
 
   const handleManualSave = async (ev: KeyboardEvent) => {
     if ((ev.metaKey || ev.ctrlKey) && ev.key === "s") {
@@ -33,7 +37,12 @@
       const clearContent = await saveContent(editor.getHTML());
       if (clearContent) editor.commands.clearContent(false);
     }
-  }
+  };
+
+  export const appendContent = (text: string) => {
+    const { size } = editor.view.state.doc.content;
+    editor.commands.insertContentAt(size, text);
+  };
   onMount(() => {
     editor = new Editor({
       element: editorContainer,
@@ -47,6 +56,7 @@
         StarterKit.configure(StarterKitOptions),
         BubbleMenu.configure({ element: bubbleMenuEl }),
         SlashCommands,
+        Typography,
       ],
       onTransaction() {
         editor = editor;
@@ -66,7 +76,6 @@
   onDestroy(() => {
     editor?.destroy();
   });
-
 </script>
 
 <WindowEvent event="keydown" callback={handleManualSave} />

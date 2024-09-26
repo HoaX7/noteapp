@@ -5,10 +5,14 @@
   import { saveSettings } from "../../../../api";
   import Spinner from "$lib/components/common/Spinner.svelte";
   import Error from "$lib/components/common/ErrorComponent.svelte";
+  import { emit } from "@tauri-apps/api/event";
+  import { TAURI_EVENTS } from "../../../../utils/constants";
+  import SettingStore from "../../../../store/settings";
 
   export let settings: SettingProps;
   let saving = false;
   let error = "";
+  const ctx = SettingStore.getContext();
 
   const showDialog = async () => {
     try {
@@ -20,6 +24,7 @@
       if (typeof dir === "string" && dir !== settings.save_files_to_dir) {
         await saveSettings({ save_files_to_dir: dir });
         settings.save_files_to_dir = dir;
+        emit(TAURI_EVENTS.RELOAD_FILES);
       }
     } catch (err: any) {
       console.error("Unable to save settings", err);
@@ -33,7 +38,11 @@
   {#if error}
     <Error {error} isModal />
   {/if}
-  <Typography
+  <Typography variant="div" weight="normal" fontSize="base">
+    Version: {$ctx.version || "N/A"}
+  </Typography>
+  <div class="mt-3">
+    <Typography
     variant="div"
     weight="normal"
     fontSize="sm"
@@ -66,4 +75,5 @@
     Note: You will need to manually move the files from your current dir to the
     new one.
   </Typography>
+  </div>
 </div>

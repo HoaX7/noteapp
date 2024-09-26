@@ -23,18 +23,22 @@ export const getList = (editor: Editor) => [
 	{
 		name: "Divider",
 		click: () =>
-			editor.chain().focus().setHorizontalRule().run(),
+			editor.chain().focus().setHorizontalRule().run()
 	},
 	{
 		name: "Code Block",
-		click: () => editor.chain().focus().toggleCodeBlock().run(),
+		click: () => editor.chain().focus().toggleCodeBlock().run()
 	},
 	{
 		name: "Ordered List",
-		click: () => editor.chain().focus().toggleOrderedList().run(),
+		click: () => editor.chain().focus().toggleOrderedList().run()
 	},
 	{
 		name: "Block Quotes",
-		click: () => editor.chain().focus().toggleBlockquote().run(),
+		click: () => editor.chain().focus().toggleBlockquote().run()
 	},
+	{
+		name: "Table",
+		click: () => editor.chain().focus().insertTable().run()
+	}
 ];

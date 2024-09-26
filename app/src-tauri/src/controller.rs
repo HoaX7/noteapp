@@ -1,3 +1,5 @@
+use std::io::ErrorKind;
+
 use noteapp_lib::{app_settings::load_config, errors::AppError, storage::StorageType};
 use serde::{Deserialize, Serialize};
 
@@ -29,6 +31,7 @@ impl ControllerError {
 impl ControllerError {
     const INVALID_SETTINGS: &str = "IV_S";
     const IO: &str = "IO_E";
+    const IO_NOTFOUND: &str = "IO_NF";
 }
 
 impl From<AppError> for ControllerError {
@@ -41,6 +44,10 @@ impl From<AppError> for ControllerError {
 }
 impl From<std::io::Error> for ControllerError {
     fn from(value: std::io::Error) -> Self {
-        ControllerError::new(value.to_string(), ControllerError::IO, 500)
+        if value.kind() == ErrorKind::NotFound {
+            ControllerError::new(value.to_string(), ControllerError::IO_NOTFOUND, 404)
+        } else {
+            ControllerError::new(value.to_string(), ControllerError::IO, 500)
+        }
     }
 }

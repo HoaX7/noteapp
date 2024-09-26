@@ -4,14 +4,19 @@
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
+  export let empty = false;
+  export let containerClass = "";
 </script>
 
 <div
-  class="fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-60 backdrop-blur-sm"
->
+  class={clsx("fixed inset-0 z-[999] grid h-screen w-screen bg-black bg-opacity-60 backdrop-blur-sm", containerClass ? containerClass : "place-items-center")}>
+  {#if empty}
+  <div class="relative bg-white rounded w-3/4">
+    <slot />
+  </div>
+  {:else}
   <div
-    class="relative bg-white w-3/4 h-3/4 rounded"
-  >
+    class="relative bg-white w-3/4 h-3/4 rounded">
     <Typography variant="div" fontSize="2xl" weight="bold" 
         classname={clsx("flex justify-between  items-center p-4 font-medium text-slate-800 border-b")}>
         <slot name="title" /> 
@@ -23,4 +28,5 @@
       <slot />
     </div>
   </div>
+  {/if}
 </div>

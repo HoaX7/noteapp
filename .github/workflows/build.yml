@@ -7,17 +7,22 @@ on:
 
 jobs:
   release:
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-latest, windows-latest]
+        platform: [macos-latest, windows-latest]
+        # platform: [macos-latest, ubuntu-latest, windows-latest]
         include:
-          - os: ubuntu-latest
-            rust_target: x86_64-unknown-linux-gnu
+          # - os: ubuntu-latest
+          #   rust_target: x86_64-unknown-linux-gnu
           - os: macos-latest
             rust_target: x86_64-apple-darwin
+            args: --target x86_64-apple-darwin
           - os: macos-latest
             rust_target: aarch64-apple-darwin
+            args: --target aarch64-apple-darwin
           - os: windows-latest
             rust_target: x86_64-pc-windows-msvc
     runs-on: ${{ matrix.platform }}
@@ -28,13 +33,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # for projects that use labels and PRs,
-      # try https://github.com/mikepenz/release-changelog-builder-action instead
-      # TODO: use API to collect commit messages
-      - name: Build Changelog
-        id: build_changelog
-        run: echo "changelog=- ADD CHANGELOG" >> $GITHUB_OUTPUT
-
       - name: Node.js setup
         uses: actions/setup-node@v4
         # NOTE: enterprise developers may hard code a version
@@ -42,9 +40,11 @@ jobs:
           node-version: 18.20.4
           # node-version-file: '.nvmrc'
 
-      - name: Install Rust (Stable)
-        run:
-          curl https://sh.rustup.rs -sSf | sh -s -- -y
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          # Those targets are only used on macos runners so it's in an `if` to slightly speed up windows and linux builds.
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
@@ -55,6 +55,20 @@ jobs:
       - name: Install app dependencies
         # NOTE: include yarn build if frontend has build script
         run: npm install ci
+
+      - name: Setup certificate 
+        if: matrix.platform == 'macos-latest'
+        run: |
+          echo "${{ secrets.MACOS_CERTIFICATE }}" | base64 --decode > certificate.p12
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security import certificate.p12 -k build.keychain -P "${{ secrets.MACOS_CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign -A
+          security find-identity
+          security set-key-partition-list -S 'apple-tool:,apple:,codesign:' -s -k "" build.keychain
+        env:
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+          MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
 
       - name: Build the app
         uses: tauri-apps/tauri-action@v0
@@ -67,7 +81,7 @@ jobs:
           tagName: app-v__VERSION__
           releaseName: Scribe v__VERSION__
           releaseBody: |
-            ${{steps.build_changelog.outputs.changelog}}
             See the assets to download this version and install.
           releaseDraft: true
           prerelease: false
+          updaterJsonPreferNsis: true
