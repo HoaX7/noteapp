@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "scribe",
-    "version": "0.4.2"
+    "version": "0.4.3"
   },
   "tauri": {
     "allowlist": {
@@ -61,7 +61,7 @@
         "signingIdentity": "noteapp",
         "minimumSystemVersion": "10.13"
       },
-      "resources": ["./docs/readme.md"],
+      "resources": ["./docs/guide_DO_NOT_EDIT.md"],
       "shortDescription": "Perfect for quick notes or detailed plans, stay on top of your day and never lose track of your ideas again!",
       "targets": "all",
       "windows": {
