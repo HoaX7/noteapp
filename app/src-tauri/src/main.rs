@@ -3,8 +3,10 @@
 
 mod tray;
 use std::io::{Read, Write};
+use log::error;
+use tauri_plugin_log::LogTarget;
 
-use noteapp_lib::app_settings;
+use noteapp_lib::{app_settings, fs};
 use tray::*;
 mod commands;
 mod shortcuts;
@@ -14,8 +16,35 @@ use tauri::{AppHandle, Manager};
 use window_shadows::set_shadow;
 
 fn main() {
+    std::panic::set_hook(Box::new(|info| {
+        let msg = match info.payload().downcast_ref::<&'static str>() {
+            Some(s) => *s,
+            None => match info.payload().downcast_ref::<String>() {
+                Some(s) => &**s,
+                None => "Box<Any>",
+            },
+        };
+        match info.location() {
+            Some(location) => {
+                error!(
+                    target: "scribe::panic", "App panicked '{}': {}:{}",
+                    msg,
+                    location.file(),
+                    location.line(),
+                );
+            }
+            None => error!(
+                target: "scribe::panic",
+                "App panicked at '{}'",
+                msg,
+            ),
+        }
+    }));
     tauri::Builder::default()
         .system_tray(make_tray())
+        .plugin(tauri_plugin_log::Builder::default().targets([
+            LogTarget::LogDir,
+        ]).build())
         .setup(|app| {
             let handle = app.handle();
             #[cfg(target_os = "macos")]
@@ -65,13 +94,7 @@ fn save_guide(handle: &AppHandle) {
     let contents = &mut String::default();
     file.read_to_string(contents).unwrap();
     let path = app_settings::make_path("guide_DO_NOT_EDIT.md");
-    let mut new_file = std::fs::OpenOptions::new()
-        .write(true)
-        .truncate(true)
-        .create(true)
-        .open(path)
-        .unwrap();
-    new_file.write_all(contents.as_bytes()).unwrap();
-    new_file.flush().unwrap();
+    fs::create_dir_all(path.as_path()).unwrap();
+    fs::try_write(path.as_path(), contents.as_bytes(), false).unwrap();
     file.flush().unwrap();
 }
