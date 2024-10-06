@@ -91,3 +91,4 @@ jobs:
           releaseDraft: true
           prerelease: false
           updaterJsonPreferNsis: true
+          args: ${{ matrix.args }}
