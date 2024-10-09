@@ -45,6 +45,11 @@ fn main() {
         .plugin(tauri_plugin_log::Builder::default().targets([
             LogTarget::LogDir,
         ]).build())
+        .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
+            if let Some(window) = app.app_handle().get_window("main") {
+                window.show().unwrap();
+            };
+        }))
         .setup(|app| {
             let handle = app.handle();
             #[cfg(target_os = "macos")]

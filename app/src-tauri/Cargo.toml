@@ -22,6 +22,7 @@ window-shadows = "0.2.2"
 noteapp_lib = { path = "../../backend/noteapp_lib" }
 log = "^0.4"
 tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
+tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 
 [target.'cfg(macos)'.dependencies]
 cocoa = "0.26.0"
