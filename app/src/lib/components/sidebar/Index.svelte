@@ -101,7 +101,7 @@
   const curdate = dt.getDate();
   const curmonth = dt.getMonth();
   $: {
-    groupedPages = pages.reduce((acc, r) => {
+    groupedPages = pages.sort((a, b) => (a.modified < b.modified ? 1 : -1)).reduce((acc, r) => {
       const [yy, mm, dd] = [
         r.modified.getFullYear(),
         r.modified.getMonth(),

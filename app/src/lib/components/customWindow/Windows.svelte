@@ -39,7 +39,7 @@
   <div>
     {#each titlebar as item}
       <button on:click={item.action} class="hover:bg-gray-300 p-2">
-        <Icon alt={item.name} src={item.icon} />
+        <Icon alt={item.name} src={item.icon} class="filter invert brightness-100 contrast-100 hover:invert-0 hover:brightness-0 hover:contrast-100" />
       </button>
     {/each}
   </div>
