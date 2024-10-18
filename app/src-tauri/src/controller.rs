@@ -3,14 +3,32 @@ use std::io::ErrorKind;
 use noteapp_lib::{app_settings::load_config, errors::AppError, storage::StorageType};
 use serde::{Deserialize, Serialize};
 
-pub async fn load_file_list() -> Result<Vec<String>, AppError> {
+#[derive(Debug, Serialize)]
+pub struct FileList{
+    pub filename: Option<String>,
+    pub modified: Option<u128>,
+}
+
+pub async fn load_file_list() -> Result<Vec<FileList>, AppError> {
     let mut result = Vec::new();
     let settings = load_config()?;
     if let Some(dir) = settings.save_files_to_dir {
         let files = StorageType::Disk.get_dir_files(dir.as_str()).await?;
         result = files.iter()
-            .filter_map(|e| e.file_name()
-            .map(|f| f.to_string_lossy().to_string()))
+            .filter_map(|e| {
+                let ms = e.metadata()
+                    .expect("Missing File Metadata")
+                    .modified().expect("Missing modified date")
+                    .duration_since(std::time::UNIX_EPOCH)
+                    .expect("Need duration")
+                    .as_millis();
+                let filename = e.file_name()
+                    .map(|f| f.to_string_lossy().to_string());
+                Some(FileList{
+                    filename,
+                    modified: Some(ms)
+                })
+            })
             .collect::<Vec<_>>();
     }
     Ok(result)

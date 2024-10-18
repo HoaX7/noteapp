@@ -2,6 +2,7 @@ export type ContextProps = {
     page: string;
     ext: string;
     isShortNote?: boolean;
+    modified: Date;
 }
 
 export type SettingProps = {
@@ -14,4 +15,9 @@ export type SettingStoreProps = {
     lastQuickNoteAt?: number;
     os?: string;
     version?: string;
+}
+
+export type FileListProps = {
+    filename: string;
+    modified: number;
 }

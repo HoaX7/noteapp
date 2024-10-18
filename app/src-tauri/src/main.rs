@@ -50,6 +50,7 @@ fn main() {
                 window.show().unwrap();
             };
         }))
+        .plugin(tauri_plugin_context_menu::init())
         .setup(|app| {
             let handle = app.handle();
             #[cfg(target_os = "macos")]

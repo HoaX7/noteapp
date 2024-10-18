@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "scribe",
-    "version": "0.4.4"
+    "version": "0.5.0"
   },
   "tauri": {
     "allowlist": {
@@ -75,7 +75,7 @@
     },
     "updater": {
       "active": true,
-      "dialog": true,
+      "dialog": false,
       "endpoints": ["https://scribe.izzi-xenex.xyz/tauri/{{target}}/{{arch}}/{{current_version}}", "https://gist.githubusercontent.com/HoaX7/26a914ff0cdfe097c949db0ac825a94f/raw/"],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEJDQzY3MjU3MDQ3MDQ1OEYKUldTUFJYQUVWM0xHdktsNDY4RHREYzZnV3BDV3pxS1NVRHNQZGZhSHZqOTlvbXZ1YWdtdkU3b2kK",
       "windows": {

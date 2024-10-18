@@ -21,13 +21,14 @@
       icon: "/assets/images/close.svg",
     },
   ];
+  export let updateManifest;
 </script>
 
 <div
   data-tauri-drag-region
   class={clsx(
     "h-8 flex bg-gray-200 fixed user-select-none top-0 left-0 right-0",
-    "items-center justify-between z-10"
+    "items-center justify-between z-[999] bg-gradient"
   )}
 >
   <MainMenu />

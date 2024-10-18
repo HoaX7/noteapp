@@ -7,6 +7,9 @@
   import Icon from "../common/Icon.svelte";
   import Typography from "../common/Typography.svelte";
   import { createEventDispatcher } from "svelte";
+  import Spinner from "../common/Spinner.svelte";
+  import Alert from "../common/Alert.svelte";
+  import BubbleMenu from "../editor/BubbleMenu.svelte";
 
   let data: string[] = [];
   let error = "";
@@ -31,11 +34,11 @@
 </script>
 
 <div class="border-b">
-  <Search on:input={debounce(handleSearch, 1000)} bind:showModal={showModal}>
+  <Search bind:loading={loading} on:input={debounce(handleSearch, 1000)} bind:showModal={showModal}>
     <div slot="search-results">
       {#each data as item}
         <div
-          class="p-3 hover:bg-gray-200 border-b cursor-pointer"
+          class="p-3 hover:bg-gray- border-b cursor-pointer"
           role="none"
           on:click|stopPropagation={() => {
             dispatch("pageSelect", item);

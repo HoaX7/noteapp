@@ -6,6 +6,8 @@
   import { deleteFile, renameFile } from "../../../api";
   import Error from "../common/ErrorComponent.svelte";
   import { IO } from "../../../utils/errors";
+  import { parseFileModifiedDate } from "../../../utils";
+  import { showMenu } from "tauri-plugin-context-menu";
 
   export let item: ContextProps;
   export let ctx: ContextProps;
@@ -73,18 +75,55 @@
     const value = e.target.value;
     fileExists = pages.some(({ page }) => page.toLowerCase() === value.toLowerCase());
   }
+  const handleDelPage = async () => {
+    const ask = await window.confirm("Are you sure you want to delete this file? This action cannot be reverted.");
+    if (!ask) return;
+    deletePage(item);
+  }
+
+  const onContextMenu = (e: any) => {
+    const browser = {
+      w: window.innerWidth,
+      h: window.innerHeight
+    };
+
+    showMenu({
+      pos: {
+        x: e.clientX,
+        y: e.clientY
+      },
+      items: [{
+        label: "Rename",
+        disabled: item.isShortNote,
+        payload: item.page,
+        event: async () => {
+          if (item.isShortNote) return;
+          setEditable(true);
+        }
+      }, {
+        label: "Delete",
+        disabled: item.isShortNote,
+        payload: item.page,
+        event: () => {
+          if (item.isShortNote) return;
+          handleDelPage();
+        }
+      }]
+    })
+  }
 </script>
 
 <li
   class={clsx(
-    "px-3 my-2 hover:bg-gray-200 cursor-pointer flex justify-between items-center",
+    "px-3 cursor-pointer justify-between items-center",
     ctx.page === item.page ? "bg-gray-200" : "",
-    "relative"
+    "relative border-b p-2 rounded-md"
   )}
   on:click={() => {
     updateStore?.(item);
   }}
   role="none"
+  on:contextmenu|preventDefault={onContextMenu}
 >
   <div class="flex gap-1 items-center truncate">
     <Icon src="assets/images/page.svg" alt="page" width="14" />
@@ -92,20 +131,9 @@
       {item.page}.{item.ext}
     </Typography>
   </div>
-  <div class="shrink-0">
-    {#if !item.isShortNote}
-    <button on:click|stopPropagation={() => setEditable(true)}>
-        <Icon src="assets/images/edit.svg" alt="rename" width="14" />
-    </button>
-    <button on:click|stopPropagation={async () => {
-        const ask = await window.confirm("Are you sure you want to delete this file? This action cannot be reverted.");
-        if (!ask) return;
-        deletePage(item);
-    }}>
-      <Icon src="assets/images/bin.svg" alt="delete" width="14" />
-    </button>
-    {/if}
-  </div>
+  <Typography variant="div" weight="normal" fontSize="sm">
+    {parseFileModifiedDate(item.modified)}
+  </Typography>
   {#if allowEdit}
     <div class={clsx("z-10 bg-white rounded-md shadow-lg top-5 m-2 absolute border p-1 px-2",
         "flex items-center gap-1"

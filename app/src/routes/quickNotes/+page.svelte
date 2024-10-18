@@ -2,11 +2,11 @@
   import Typography from "$lib/components/common/Typography.svelte";
   import Editor from "$lib/components/editor/Editor.svelte";
   import { appWindow } from "@tauri-apps/api/window";
-  import { saveContent } from "../../api";
+  import { getContent, saveContent } from "../../api";
   import clsx from "clsx";
   import ErrorComponent from "$lib/components/common/ErrorComponent.svelte";
   import { emit } from "@tauri-apps/api/event";
-  import { Shortcuts, TAURI_EVENTS } from "../../utils/constants";
+  import { MAC_OS, Shortcuts, TAURI_EVENTS } from "../../utils/constants";
   import WindowEvent from "$lib/hooks/WindowEvent.svelte";
   import SettingStore from "../../store/settings";
 
@@ -61,17 +61,18 @@
 </script>
 
 <WindowEvent callback={handleKeyPress} event="keydown" />
-<div class={clsx("border-b p-2 bg-white fixed h-8 user-select-none top-0 left-0 right-0",
-    "flex items-center justify-between"
+<div class={clsx("border-b p-2 fixed h-8 user-select-none top-0 left-0 right-0",
+    "flex items-center justify-between z-[999]",
+    "bg-gradient text-white"
 )} data-tauri-drag-region>
     {#if error}
         <ErrorComponent {error} isModal />
     {/if}
     <div class="flex gap-2">
         <Typography variant="div" weight="medium" fontSize="sm">
-            Press <span class="rounded px-2 bg-gray-200">
+            Press <span class="rounded px-2 bg-gray-200 text-black">
                 {Shortcuts($ctx.os).SAVE}
-            </span> to save, <span class="rounded px-2 bg-gray-200">
+            </span> to save, <span class="rounded px-2 bg-gray-200 text-black">
                 {Shortcuts($ctx.os).QUIT}
             </span> to quit 
         </Typography>
@@ -81,7 +82,8 @@
             </Typography>
         {/if}
     </div>
-    <button class="hover:bg-gray-200 text-black py-0 px-2 rounded-lg"
+    <button class={clsx("hover:bg-gray-200 text-black py-0 px-2 rounded-lg",
+        "text-white hover:text-black")}
         on:click={() => {
             // save data to quicknotes file and close
             appWindow.close();

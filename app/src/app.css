@@ -203,3 +203,6 @@ ol li {
 	cursor: ew-resize;
 	cursor: col-resize;
   }
+  .file-list-wrapper > li:last-child {
+	border: none !important;
+  }

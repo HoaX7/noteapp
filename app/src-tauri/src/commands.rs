@@ -17,7 +17,7 @@ pub async fn get_content(path: &str) -> Result<Option<String>, ControllerError> 
 }
 
 #[tauri::command]
-pub async fn get_file_list() -> Result<Vec<String>, ControllerError> {
+pub async fn get_file_list() -> Result<Vec<FileList>, ControllerError> {
     Ok(load_file_list().await?)
 }
 

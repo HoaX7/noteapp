@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import type { SettingProps } from "../types";
+import type { FileListProps, SettingProps } from "../types";
 import { isEmptyObject } from "@tiptap/core";
 
 /**
@@ -23,7 +23,7 @@ export const getContent = async (path: string): Promise<string> => {
 	return invoke("get_content", { path });
 };
 
-export const getFileList = async (): Promise<string[]> => {
+export const getFileList = async (): Promise<FileListProps[]> => {
 	return invoke("get_file_list", {});
 };
 

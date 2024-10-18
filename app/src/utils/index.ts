@@ -20,3 +20,28 @@ export const parseFilename = async (fn: string) => {
 		ext
 	};
 };
+
+export const getFullMonth = (month: number) => {
+	return [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December"
+	][month];
+};
+
+export const parseFileModifiedDate = (date: Date) => {
+	const today = new Date().getDate();
+	if (today === date.getDate()) {
+		return `Today ${date.toLocaleTimeString()}`;
+	}
+	return date.toLocaleDateString();
+};
