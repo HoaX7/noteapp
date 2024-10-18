@@ -37,6 +37,7 @@ pub fn make_tray() -> SystemTray {
 fn show_main_window(app: &AppHandle) -> Window {
     let window = app.get_window(MAIN_WINDOW_LABEL).unwrap();
     window.show().unwrap();
+    window.set_focus().unwrap();
     window
 }
 
