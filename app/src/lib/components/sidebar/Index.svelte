@@ -126,6 +126,14 @@
   const getPages = (label: string) => {
     return groupedPages[label as keyof GroupedPages];
   };
+
+  const handlePageModified = ({ payload }: { payload: { page: string }; }) => {
+    const idx = pages.findIndex((p) => p.page === payload.page);
+    if (idx >= 0) {
+      pages[idx].modified = new Date();
+      pages = pages;
+    }
+  }
 </script>
 
 <TauriEventListener
@@ -135,6 +143,10 @@
 <TauriEventListener
   eventName={TAURI_EVENTS.REFRESH_NOTES}
   callback={handleRefresh}
+/>
+<TauriEventListener 
+  eventName={TAURI_EVENTS.PAGE_MODIFIED}
+  callback={handlePageModified}
 />
 {#if error}
   <Error {error} isModal />

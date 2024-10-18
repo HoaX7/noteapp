@@ -3,6 +3,7 @@
   import clsx from "clsx";
   import Icon from "../common/Icon.svelte";
   import MainMenu from "../menu/Main.svelte";
+  import Updater from "../settings/Updater.svelte";
 
   const titlebar = [
     {
@@ -31,7 +32,10 @@
     "items-center justify-between z-[999] bg-gradient"
   )}
 >
-  <MainMenu />
+  <div class="flex">
+    <MainMenu />
+    <Updater {updateManifest} on:updatecomplete />
+  </div>
   <div>
     {#each titlebar as item}
       <button on:click={item.action} class="hover:bg-gray-300 p-2">

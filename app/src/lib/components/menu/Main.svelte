@@ -28,7 +28,7 @@
   {#each menubar as menu}
     <div class="relative">
       <button
-        class="hover:bg-gray-300 px-2 rounded"
+        class="hover:bg-gray-300 text-white hover:text-black px-2 rounded"
         on:click|stopPropagation={() => {
           activeMenu = menu.name;
         }}

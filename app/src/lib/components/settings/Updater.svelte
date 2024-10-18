@@ -11,7 +11,7 @@ import Typography from "../common/Typography.svelte";
     const handleInstallUpdate = async () => {
         saving = true;
         try {
-            // await installUpdates(updateManifest.manifest);
+            await installUpdates(updateManifest.manifest);
             dispatch("updatecomplete");
         } catch (err) {
             console.error("Unable to update", err)
@@ -21,7 +21,7 @@ import Typography from "../common/Typography.svelte";
 </script>
 
 {#if updateManifest.updateAvailable}
-<Typography classname="mx-3 text-white flex gap-2 items-center" variant="div" weight="normal" fontSize="base">
+<Typography classname="text-white flex gap-2 items-center" variant="div" weight="normal" fontSize="base">
   v{updateManifest.manifest.version} available 
   {#if saving}
     <Spinner size="xxs" />

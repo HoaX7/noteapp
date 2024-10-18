@@ -11,6 +11,7 @@
   import ErrorComponent from "$lib/components/common/ErrorComponent.svelte";
   import TauriEventListener from "$lib/hooks/TauriEventListener.svelte";
   import { TAURI_EVENTS } from "../utils/constants";
+  import { emit } from "@tauri-apps/api/event";
 
   const ctx = ContextStore.getContext()
   let content = "";
@@ -27,6 +28,7 @@
       saving = true;
       const fp = getPath($ctx);
       await saveContent({ path: fp, text, append: false });
+      await emit(TAURI_EVENTS.PAGE_MODIFIED, { page: $ctx.page });
     } catch (err: any) {
       console.error("unable to save", err)
       error = err?.message || "unable to save";
