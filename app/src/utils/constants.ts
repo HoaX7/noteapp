@@ -3,7 +3,8 @@ export enum TAURI_EVENTS {
     SHOW_SETTINGS = "show_settings",
     CLOSE_SETTINGS = "close_settings",
     RELOAD_FILES = "reload_files",
-    PAGE_MODIFIED = "page_modified"
+    PAGE_MODIFIED = "page_modified",
+    CHECK_UPDATE = "check_update"
 }
 
 export const QUICKNOTE_WINDOW_LABEL = "quicknotes_window";

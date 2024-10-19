@@ -49,7 +49,7 @@
         >
           <Typography
             variant="div"
-            weight="medium"
+            weight="semi-bold"
             fontSize="xl"
             classname="flex gap-1"
           >

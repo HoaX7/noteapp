@@ -10,6 +10,7 @@ impl MenuItems {
     const QUICKNOTES: (&str, &str) = ("quicknotes", "Quicknotes     Cmd+Enter");
     const SETTINGS: (&str, &str) = ("settings", "Settings");
     const SHOW: (&str, &str) = ("show", "Show");
+    const UPDATE: (&str, &str) = ("update", "Update");
     const QUIT: (&str, &str) = ("quit", "Quit");
 }
 const MAIN_WINDOW_LABEL: &str = "main";
@@ -17,6 +18,7 @@ const MAIN_WINDOW_LABEL: &str = "main";
 struct TauriEvents{}
 impl TauriEvents {
     const SHOW_SETTINGS: &str = "show_settings";
+    const CHECK_UPDATE: &str = "check_update";
 }
 
 pub fn make_tray() -> SystemTray {
@@ -26,6 +28,10 @@ pub fn make_tray() -> SystemTray {
         let custom_menu = CustomMenuItem::new(item.0, item.1);
         tray_menu = tray_menu.add_item(custom_menu);
     };
+    let custom_menu = CustomMenuItem::new(MenuItems::UPDATE.0, MenuItems::UPDATE.1);
+    tray_menu = tray_menu
+        .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(custom_menu);
     let custom_menu = CustomMenuItem::new(MenuItems::QUIT.0, MenuItems::QUIT.1);
     tray_menu = tray_menu
         .add_native_item(SystemTrayMenuItem::Separator)
@@ -60,6 +66,10 @@ pub fn system_tray_events(app: &AppHandle, event: SystemTrayEvent) {
                 }
                 str if str == MenuItems::SHOW.0 => {
                     show_main_window(app);
+                }
+                str if str == MenuItems::UPDATE.0 => {
+                    let window = show_main_window(app);
+                    window.emit(TauriEvents::CHECK_UPDATE, {}).unwrap();
                 }
                 &_ => {}
             }

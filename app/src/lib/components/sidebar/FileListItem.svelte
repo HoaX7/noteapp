@@ -131,7 +131,7 @@
       {item.page}.{item.ext}
     </Typography>
   </div>
-  <Typography variant="div" weight="normal" fontSize="sm">
+  <Typography variant="div" weight="medium" fontSize="sm" classname="text-gray-500">
     {parseFileModifiedDate(item.modified)}
   </Typography>
   {#if allowEdit}
@@ -141,7 +141,7 @@
         on:click|stopPropagation={() => {}}
         role="none">
         <div>
-            <input maxlength="20" value={item.page} class="w-full" placeholder="start typing.." 
+            <input maxlength="100" value={item.page} class="w-full" placeholder="start typing.." 
                 on:keypress={handleRename}
                 on:input={handleInput}
             />

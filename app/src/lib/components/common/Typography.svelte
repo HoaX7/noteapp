@@ -46,11 +46,14 @@
     }
     .font-medium {
         font-weight: 500;
+        font-family: 'Nunito SemiBold';
     }
     .font-semi-bold {
         font-weight: 600;
+        font-family: 'Nunito Bold';
     }
     .font-bold {
         font-weight: 700;
+        font-family: 'Nunito ExtraBold';
     }
 </style>

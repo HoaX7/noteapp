@@ -72,11 +72,17 @@
   ];
 
   let showLinkInput = false;
-  let link = editor?.getAttributes("link")?.href || "";
+  let link = "";
 
   const unlink = () => editor.chain().focus().extendMarkRange("link").unsetLink().run();
   const handleLinkInput = (e: any) => {
   	link = e.target.value;
+	if ((e.code === "Backspace" || e.code === "Enter") && link === "") {
+  		unlink();
+		link = "";
+  		showLinkInput = false;
+		return
+  	}
   	if (e.code === "Enter") {
   		editor
   			.chain()
@@ -90,16 +96,15 @@
   			.run();
 		link = "";
   		showLinkInput = false;
-  	} else if ((e.code === "Backspace" || e.code === "Enter") && link === "") {
-  		unlink();
-		link = "";
-  		showLinkInput = false;
   	}
   };
 
   $: if (editor?.isActive?.("link")) {
-	link = editor.getAttributes("link").href || "";
-  }
+		link = editor.getAttributes("link").href || "";
+  	} else {
+		if (link) link = "";
+		if (showLinkInput) showLinkInput = false;
+	}
 </script>
 
 <div bind:this={ref} class={"bg-white rounded-md border shadow-lg flex place-items-center"}>

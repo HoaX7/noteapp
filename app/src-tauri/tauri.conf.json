@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "scribe",
-    "version": "0.5.2"
+    "version": "0.5.3"
   },
   "tauri": {
     "allowlist": {
@@ -33,7 +33,8 @@
       "dialog": {
         "all": false,
         "open": true,
-        "confirm": true
+        "confirm": true,
+        "message": true
       }
     },
     "bundle": {

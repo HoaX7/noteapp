@@ -39,20 +39,26 @@
 
   const pollupdate = () => {
     timer = setInterval(async () => {
-      if (updateManifest.updateAvailable) {
-        clearInterval(timer);
-        return;
-      }
+      checkUpdates();
+    }, 60 * 60 * 1000 * 6);
+  }
+
+  const checkUpdates = async (force = false) => {
       // check for updates.
       try {
         const { shouldUpdate, manifest } = await checkUpdate();
-        if (!shouldUpdate || !manifest) return;
+        if (!shouldUpdate || !manifest) {
+          if (force) {
+            window.alert("You already have the latest version.");
+          }
+          return;
+        }
         updateManifest.updateAvailable = true;
         updateManifest.manifest = manifest;
+        clearInterval(timer);
       } catch (err) {
         console.error("err", err)
       }
-    }, 60 * 60 * 1000 * 6);
   }
   const handleUpdateComplete = () => {
     updateManifest = {
@@ -68,9 +74,10 @@
 </script>
 
 <TauriEventListener eventName={TAURI_EVENTS.SHOW_SETTINGS} callback={() => showSettings = true} />
-  {#if showSettings}
-    <Settings on:close={closeSettings} />
-  {/if}
+<TauriEventListener eventName={TAURI_EVENTS.CHECK_UPDATE} callback={() => checkUpdates(true)} />
+{#if showSettings}
+  <Settings on:close={closeSettings} />
+{/if}
 {#if $page.url.pathname === "/quickNotes"}
   <slot />
 {:else}

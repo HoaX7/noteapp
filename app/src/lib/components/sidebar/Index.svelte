@@ -160,7 +160,7 @@
       <div class="mb-2">
         <Typography
           variant="div"
-          weight="medium"
+          weight="semi-bold"
           fontSize="sm"
           classname="text-gray-500 px-3 p-2"
         >
