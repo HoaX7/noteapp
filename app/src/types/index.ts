@@ -15,6 +15,7 @@ export type SettingStoreProps = {
     lastQuickNoteAt?: number;
     os?: string;
     version?: string;
+    defaultFont?: boolean;
 }
 
 export type FileListProps = {

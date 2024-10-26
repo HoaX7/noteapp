@@ -16,6 +16,10 @@ use tauri::{AppHandle, Manager};
 use window_shadows::set_shadow;
 
 fn main() {
+    #[cfg(target_os = "windows")]
+    unsafe {
+        winapi::um::shellscalingapi::SetProcessDpiAwareness(1);
+    }
     std::panic::set_hook(Box::new(|info| {
         let msg = match info.payload().downcast_ref::<&'static str>() {
             Some(s) => *s,

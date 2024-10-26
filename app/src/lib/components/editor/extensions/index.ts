@@ -23,7 +23,7 @@ export const StarterKitOptions = {
 	code: { HTMLAttributes: { class: "px-1 bg-gray-200 rounded" } },
 	horizontalRule: { HTMLAttributes: { class: "my-8" } },
 	codeBlock: false as const,
-	heading: { HTMLAttributes: { class: "mt-8" } },
+	heading: { HTMLAttributes: { class: "mt-6" } },
 };
 
 export default [

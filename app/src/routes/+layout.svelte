@@ -27,11 +27,17 @@
       platform(),
       getVersion()
     ]); // darwin | linux | win32. see https://tauri.app/v1/api/js/os for all platforms.
+
+    if ($ctx?.defaultFont) {
+      document.body.style.fontFamily = "unset";
+    }
+
     ctx?.update((store) => {
       store.os = os;
       store.version = version;
       return store;
     });
+    checkUpdates();
     pollupdate();
   });
 
@@ -40,7 +46,7 @@
   const pollupdate = () => {
     timer = setInterval(async () => {
       checkUpdates();
-    }, 60 * 60 * 1000 * 6);
+    }, 60 * 60 * 1000);
   }
 
   const checkUpdates = async (force = false) => {
